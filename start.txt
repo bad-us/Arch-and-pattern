@@ -1,1 +1,17 @@
 Bad Framework
+
+Дз разделил на 3 папки:
+
+    bad_framework содержит фреймворк и шаблонизатор
+    application содержит urls и вьюшки
+    templates содержит html страницы
+
+В папке bad_framework так же есть файл all_in_one.py - фреймоворк и приложение в 1 файле.
+
+В класс Framework передаю еще 1 параметр -> страницу 404, которую также render.
+
+Запуск фреймворка с помощью gunicorn: gunicorn simple_wsgi:application
+    с помощью uwsgi: uwsgi --http :8000 --wsgi-file simple_wsgi.py
+
+
+Запуск фреймворка производится скриптом run.py с помощью wsgiref
