@@ -57,12 +57,16 @@
 
         .footer {
             margin-top: 21px;
-            padding-left: 40px;
             font-size: 16px;
             line-height: 26px;
             color: #1f3f68;
             letter-spacing: 0.05em;
             opacity: 0.6;
+            width: 270px;
+            list-style-type: none;
+            display: flex;
+            justify-content: space-around;
+            padding-left: 20px;
         }
     </style>
 </head>
@@ -94,11 +98,12 @@
         <p class="service_text">Добро пожаловать на сайт, {{user_name}}, сегодня: {{data}}</p>
     </div>
 
-    <p class="footer">
-
-        <a href="/">На главную</a>
-
-    </p>
+    <div>
+        <ul class="footer">
+            <li><a href="/">На главную</a></li>
+            <li><a href="/write/">Написать нам</a></li>
+        </ul>
+    </div>
 
 
 </body>

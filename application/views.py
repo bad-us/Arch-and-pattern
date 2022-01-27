@@ -12,6 +12,11 @@ class Contacts:
         page = render("contacts.html", data=request.get("data", None), user_name=request.get("user", None))
         return "200 OK", [bytes(page, "UTF-8")]
 
+class Write_to_us:
+    def __call__(self, request):
+        page = render("write_to_us.html", data=None)
+        return "200 OK", [bytes(page, "UTF-8")]
+
 
 class PageNotFound:
     def __call__(self, request):
