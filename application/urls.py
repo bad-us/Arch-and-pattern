@@ -1,5 +1,5 @@
 from datetime import date
-from application.views import Index, Contacts, PageNotFound
+from application.views import Index, Contacts, PageNotFound, Write_to_us
 
 # Front controllers
 
@@ -17,6 +17,7 @@ fronts = [today, user_name]
 routes = {
     "/": Index(),
     "/contacts/": Contacts(),
+    "/write/": Write_to_us(),
 }
 
 page_404 = PageNotFound()
