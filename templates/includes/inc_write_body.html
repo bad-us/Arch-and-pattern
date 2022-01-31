@@ -1,0 +1,28 @@
+<div class="main_unit">
+
+    <h1 class="header">Ждем сообщений от вас</h1>
+    <form action="" method="POST">
+        <fieldset class='main_form'>
+            <legend class="caption">Обратная связь</legend>
+            <label class="title">Тема обращения </label>
+
+            <select name="theme" required="required">
+                <option value="">Выберите вариант</option>
+                <option value='registration for courses'>Запись на курсы</option>
+                <option value='Question about the service'>Вопрос по работе сервиса</option>
+                <option value='Cooperation'>Сотрудничество</option>
+                <option value='other'>Пожелания / предложения</option>
+            </select>
+
+            <div class="title" for="name">Ваше имя:</div>
+
+            <input type="text" name="name" id="name"><br />
+            <div class="title">Ваш email</div>
+            <input type="email" name="email" id='mail' required="required">
+            <div class="title">Сообщение</div>
+            <textarea name="message" id='message'></textarea>
+        </fieldset>
+        <input type="submit" class="submit_btn" value="Отправить">
+    </form>
+
+</div>
