@@ -1,111 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контакты</title>
-    <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-        }
-
-        body {
-            font-family: Arial, Verdana, sans-serif;
-            font-size: 95%;
-            color: #666;
-        }
-
-        .header {
-            text-align: center;
-            font-size: 40px;
-            margin-bottom: 20px;
-            margin-top: 10px;
-            background-color: cornsilk;
-        }
-
-        .main {
-            padding-top: 20px;
-            padding-bottom: 20px;
-            padding-left: 40px;
-            background-color: aliceblue;
-            min-height: 230px;
-            font-size: 18px;
-        }
-
-        .ul_header {
-            padding-bottom: 15px;
-            padding-top: 15px;
-        }
-
-        li {
-            padding-top: 5px;
-        }
-
-        .service_text {
-            font-size: 12px;
-            line-height: 26px;
-            color: #1f3f68;
-            letter-spacing: 0.05em;
-            opacity: 0.6;
-            padding-top: 26px;
-
-        }
-
-        .footer {
-            margin-top: 21px;
-            font-size: 16px;
-            line-height: 26px;
-            color: #1f3f68;
-            letter-spacing: 0.05em;
-            opacity: 0.6;
-            width: 270px;
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-            padding-left: 20px;
-        }
-    </style>
-</head>
-
-<body>
-    <h1 class="header">Наши контакты</h1>
-    <div class="main">
-        <h4 class="ul_header">Москва</h4>
-        <ul>
-            <li>
-                Телефон: 8-800-111-11-11
-            </li>
-            <li>
-                e-mail: mail@mail.ru
-            </li>
-            <li>Адрес: Лубянка 101</li>
-        </ul>
-        <h4 class="ul_header">Екатеринбург</h4>
-        <ul>
-            <li>
-                Телефон: 8-800-123-45-66
-            </li>
-            <li>
-                e-mail: mail@mail.ru
-            </li>
-            <li>Адрес: Ленина 50</li>
-        </ul>
-
-        <p class="service_text">Добро пожаловать на сайт, {{user_name}}, сегодня: {{data}}</p>
-    </div>
-
-    <div>
-        <ul class="footer">
-            <li><a href="/">На главную</a></li>
-            <li><a href="/write/">Написать нам</a></li>
-        </ul>
-    </div>
-
-
-</body>
-
-</html>
+{% extends "base.html" %}
+{% block title %}
+Наши контакты
+{% endblock title %}
+{% block style %}
+{% include "includes/inc_style.html" %}
+{% endblock style %}
+{% block menu %}
+{% include "includes/inc_menu.html" %}
+{% endblock menu %}
+{% block body %}
+{% include "includes/inc_contacts_body.html" %}
+{% endblock body %}
+{% block footer %}
+{% include "includes/inc_footer.html" %}
+{% endblock footer %}
