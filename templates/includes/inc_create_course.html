@@ -1,0 +1,19 @@
+<div class="main_unit">
+
+
+    <h1 class="header">Создание курса для категории "{{category_name}}"</h1>
+    <form method="post" class="form_add_row">
+        <input type="text" name="name" placeholder="Название">
+        <select name="type" required="required">
+            <option value="">Тип курса</option>
+            <option value='webinar'>Вебинарный формат</option>
+            <option value='record'>Курс в записи</option>
+            <option value='classroom'>Курс в аудиториях</option>
+
+        </select>
+        <button type="submit" class="button_add_row">Сохранить и вернуться к списку курсов</button>
+    </form>
+
+    <a href="/courses_list/?id={{id}}" class="back_href">К списку курсов</a>
+
+</div>

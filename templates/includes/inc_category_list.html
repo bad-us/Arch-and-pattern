@@ -1,0 +1,11 @@
+<div class="main_unit">
+    <h1 class="header">Наши курсы</h1>
+    {% for item in categories_list %}
+    <li class="course_list">
+        {{item.name}}
+        Состоит из {{item.course_count()}} курсов
+        <a href="/courses_list/?id={{item.id}}" class="back_href">К списку курсов</a>
+    </li>
+    {% endfor %}
+    <a href="/create_category/" class="back_href">Добавить новую категорию</a>
+</div>

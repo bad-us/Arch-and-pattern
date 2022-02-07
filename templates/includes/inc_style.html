@@ -17,7 +17,7 @@
     .top_menu {
         margin-top: 21px;
         margin-bottom: 21px;
-        background-color: floralwhite;
+        background-color: black;
     }
 
 
@@ -29,15 +29,35 @@
 
     .menu {
         display: flex;
-        justify-content: space-around;
-        font-size: 16px;
-        line-height: 26px;
-        color: #1f3f68;
-        letter-spacing: 0.05em;
-        opacity: 0.6;
         list-style-type: none;
         padding-left: 20px;
-        width: 370px;
+    }
+
+
+    .a_menu {
+        display: inline-block;
+        padding: 20px 10px;
+        margin: 40px 0;
+        color: #03E996;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: 0.8s;
+        letter-spacing: 4px;
+        margin-right: 50px;
+    }
+
+    .a_menu:hover {
+        background: #03e9f4;
+        color: #050801;
+        box-shadow: 0 0 5px #03e9f4,
+            0 0 25px #03e9f4,
+            0 0 50px #03e9f4,
+            0 0 200px #03e9f4;
+        -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+    }
+
+    .a_menu:nth-child(1) {
+        filter: hue-rotate(270deg);
     }
 
     .main_unit {
@@ -56,6 +76,19 @@
         background-color: cornsilk;
         margin-bottom: 20px;
         padding-left: 30px;
+    }
+
+    .form_add_row {
+        margin-left: 26px;
+        margin-bottom: 26px;
+    }
+
+    .button_add_row {
+        height: 28px;
+    }
+
+    .back_href {
+        margin-left: 26px;
     }
 
     .text {
@@ -112,6 +145,18 @@
 
     li {
         padding-top: 5px;
+
+    }
+
+    .course_list {
+        list-style-type: none;
+        padding-left: 30px;
+        font-size: 18px;
+    }
+
+    a {
+        text-decoration: none;
+        text-transform: uppercase;
     }
 
     .error_404 {

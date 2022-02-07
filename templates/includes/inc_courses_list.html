@@ -1,0 +1,14 @@
+<div class="main_unit">
+
+
+    <h1 class="header">Список курсов для категории "{{category_name}}"</h1>
+    {% for item in courses_list %}
+    <li class="course_list">
+        {{item.name}} <span><a href="/copy_course/?name={{item.name}}">скопировать</a></span>
+    </li>
+    {% endfor %}
+
+    <a href="/create_course/?id={{id}}" class="back_href">Создать новый курс</a>
+    <br>
+
+</div>
