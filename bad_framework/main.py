@@ -11,22 +11,6 @@ class Framework:
 
         path = environ["PATH_INFO"]
 
-        # Lesson_1
-        # if not path.endswith("/"):
-        #     path = f"{path}/"
-        #
-        # if path in self.routes:
-        #     view = self.routes[path]
-        # else:
-        #     view = self.page_404
-        # request = {}
-        # # front controller
-        # for front in self.fronts:
-        #     front(request)
-        # code, body = view(request)
-        # start_response(code, [("Content-Type", "text/html")])
-        # return body
-
         if not path.endswith("/"):
             path = f"{path}/"
 
@@ -58,7 +42,6 @@ class Framework:
         start_response(code, [("Content-Type", "text/html")])
         return body
 
-
     @staticmethod
     def decode_value(data):
         new_data = {}
@@ -67,3 +50,4 @@ class Framework:
             val_decode_str = quopri.decodestring(val).decode("UTF-8")
             new_data[k] = val_decode_str
         return new_data
+

@@ -4,6 +4,7 @@ from patterns.creational_patterns import Engine, Logger, Course
 site = Engine()
 logger = Logger("main")
 
+
 class Index:
     def __call__(self, request):
         page = render("index.html", data=request.get("data", None), user_name=request.get("user", None))
@@ -15,10 +16,12 @@ class Contacts:
         page = render("contacts.html", data=request.get("data", None), user_name=request.get("user", None))
         return "200 OK", [bytes(page, "UTF-8")]
 
+
 class Write_to_us:
     def __call__(self, request):
-        page = render("write_to_us.html", data=None)
+        page = render("write_to_us.html", data=request.get("data", None), user_name=request.get("user", None))
         return "200 OK", [bytes(page, "UTF-8")]
+
 
 class CategoryList:
     def __call__(self, request):
@@ -132,6 +135,7 @@ class CopyCourse:
         except KeyError:
             page = render("not_found.html", data=request.get("data", None), user_name=request.get("user", None))
             return "404 WHAT", [bytes(page, "UTF-8")]
+
 
 class PageNotFound:
     def __call__(self, request):
