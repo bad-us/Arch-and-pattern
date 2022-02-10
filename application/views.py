@@ -1,29 +1,40 @@
 from bad_framework.templator import render
 from patterns.creational_patterns import Engine, Logger, Course
+from patterns.structural_patterns import AppRoute, Debug
 
 site = Engine()
 logger = Logger("main")
 
+routes = {}
 
+
+@AppRoute(routes=routes, url="/")
 class Index:
+    @Debug("Главная")
     def __call__(self, request):
         page = render("index.html", data=request.get("data", None), user_name=request.get("user", None))
         return "200 OK", [bytes(page, "UTF-8")]
 
 
+@AppRoute(routes=routes, url="/contacts/")
 class Contacts:
+    @Debug("Контакты")
     def __call__(self, request):
         page = render("contacts.html", data=request.get("data", None), user_name=request.get("user", None))
         return "200 OK", [bytes(page, "UTF-8")]
 
 
+@AppRoute(routes=routes, url="/write/")
 class Write_to_us:
+    @Debug("Обратная связь")
     def __call__(self, request):
         page = render("write_to_us.html", data=request.get("data", None), user_name=request.get("user", None))
         return "200 OK", [bytes(page, "UTF-8")]
 
 
+@AppRoute(routes=routes, url="/category_list/")
 class CategoryList:
+    @Debug("Список курсов")
     def __call__(self, request):
         # передаем список категорий
         page = render(
@@ -35,7 +46,9 @@ class CategoryList:
         return "200 OK", [bytes(page, "UTF-8")]
 
 
+@AppRoute(routes=routes, url="/create_category/")
 class CreateCategory:
+    @Debug("Создание категории")
     def __call__(self, request):
         logger.log("Создание категории")
         if request["method"] == "POST":
@@ -50,9 +63,11 @@ class CreateCategory:
         return "200 OK", [bytes(page, "UTF-8")]
 
 
+@AppRoute(routes=routes, url="/create_course/")
 class CreateCourse:
     category_id = -1
 
+    @Debug("Создание курса")
     def __call__(self, request):
         logger.log("Создание курса")
         if request["method"] == "POST":
@@ -88,7 +103,9 @@ class CreateCourse:
                 return "404 WHAT", [bytes(page, "UTF-8")]
 
 
+@AppRoute(routes=routes, url="/courses_list/")
 class CoursesList:
+    @Debug("Список уроков")
     def __call__(self, request):
         try:
             category = site.find_category_by_id(int(request["get_data"]["id"]))
@@ -108,7 +125,9 @@ class CoursesList:
 
 
 # контроллер - копировать курс
+@AppRoute(routes=routes, url="/copy_course/")
 class CopyCourse:
+    @Debug("Копирование урока")
     def __call__(self, request):
         request_params = request["get_data"]
 
@@ -138,6 +157,7 @@ class CopyCourse:
 
 
 class PageNotFound:
+    @Debug("Страница не найдена")
     def __call__(self, request):
         page = render("not_found.html", data=None)
         return "404 WHAT", [bytes(page, "UTF-8")]

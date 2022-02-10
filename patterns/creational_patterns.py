@@ -1,6 +1,7 @@
 import copy
 import quopri
 
+
 # Пользователи
 # Абстрактный пользователь
 class User:

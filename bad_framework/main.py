@@ -51,3 +51,53 @@ class Framework:
             new_data[k] = val_decode_str
         return new_data
 
+
+class LogFramework:
+    def __init__(self, routes, fronts, page_404):
+        self.routes = routes
+        self.fronts = fronts
+        self.page_404 = page_404
+
+    def __call__(self, environ, start_response):
+
+        path = environ["PATH_INFO"]
+
+        if not path.endswith("/"):
+            path = f"{path}/"
+
+        request = {}
+        # Метод которым отправили запрос
+        method = environ["REQUEST_METHOD"]
+        request["method"] = method
+
+        if method == "GET":
+            print("Запрос типа GET")
+            query_string = environ["QUERY_STRING"]  # получаем содержимое запроса - строку
+            get_request = parse_input_data(query_string)
+            request["get_data"] = get_request
+            print(f"Параметры: {get_request}")
+        if method == "POST":
+            print("Запрос типа POST")
+            data = get_request_params(environ)
+            request["post_data"] = data
+            print(f"Параметры: {Framework.decode_value(data)}")
+
+        if path in self.routes:
+            view = self.routes[path]
+        else:
+            view = self.page_404
+
+        # front controller
+        for front in self.fronts:
+            front(request)
+
+        code, body = view(request)
+        start_response(code, [("Content-Type", "text/html")])
+        return body
+
+
+class FakeFramework:
+    def __call__(self, environ, start_response):
+
+        start_response("200 OK", [("Content-Type", "text/html")])
+        return [b"Server is working"]
