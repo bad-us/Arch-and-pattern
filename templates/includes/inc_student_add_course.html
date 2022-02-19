@@ -1,0 +1,25 @@
+<div class="main_unit">
+
+    <h1 class="header">Запись студента в поток</h1>
+
+    <form method="post" class="main_form">
+        <fieldset class='main_form'>
+            <legend class="caption">Форма записи</legend>
+            <div class="title" for="course_name">Курс</div>
+            <select size="5" name="course_name" class='student_course_select'>
+                {% for course in courses_list %}
+                <option value="{{course.name}}">{{course.name}}</option>
+                {% endfor %}
+            </select>
+            <div class="title" for="student_name">Студент</div>
+            <select size="5" name="student_name" class='student_course_select'>
+                {% for student in student_list %}
+                <option value="{{student.name}}">{{student.name}}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
+        <input type="submit" class="submit_btn" value="Записать">
+    </form>
+
+
+</div>

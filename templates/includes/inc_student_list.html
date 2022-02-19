@@ -1,0 +1,16 @@
+<div class="main_unit">
+
+
+    <h1 class="header">Наши студенты</h1>
+    <div>
+        <a href="/student_create/" class="back_href">Добавить студента</a>
+    </div>
+    {% for student in student_list %}
+    <li class="course_list">
+        {{student.name}}
+    </li>
+    {% endfor %}
+
+
+
+</div>
