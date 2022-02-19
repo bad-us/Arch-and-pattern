@@ -1,6 +1,11 @@
 from time import time
 
-# Декоратор похожий на flask
+# Декоратор url по типу flask
+
+# Тк декораторы срабатывают в момент импорта, то мы получаем словарь routes (который у нас был на 4 уроке в urls.py),
+# в таком виде - {'/': <views.Index object at 0x0000014B223C5BE0>, '/about/': <views.About object at 0x0000014B223C5F10>}
+# Получили путь (ключ) и подставили задекорированную функцию (в виде ссылки на объект в памяти)
+
 
 class AppRoute:
     def __init__(self, routes, url):

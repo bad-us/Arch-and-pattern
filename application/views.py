@@ -1,9 +1,19 @@
-from bad_framework.templator import render
-from patterns.creational_patterns import Engine, Logger, Course
+from patterns.architectural_system_pattern_mappers import MapperRegistry
+from patterns.architectural_system_pattern_unit_of_work import UnitOfWork
+from patterns.behavioral_patterns import (BaseSerializer, CreateView,
+                                          EmailNotifier, SmsNotifier)
 from patterns.structural_patterns import AppRoute, Debug
+from patterns.сreational_patterns import Course, Engine, Logger
+from trinity_framework.templator import render
 
 site = Engine()
 logger = Logger("main")
+
+email_notifier = EmailNotifier()
+sms_notifier = SmsNotifier()
+
+UnitOfWork.new_current()
+UnitOfWork.get_current().set_mapper_registry(MapperRegistry)
 
 routes = {}
 
@@ -36,6 +46,17 @@ class Write_to_us:
 class CategoryList:
     @Debug("Список курсов")
     def __call__(self, request):
+        # получаем данные категорий из БД и из engine
+        categories_list = MapperRegistry.get_current_mapper("category").all()
+        categories_list_from_engine = site.categories
+
+        engine_category_list = [j.name for j in categories_list_from_engine]
+
+        # сравниваем, если категории нет в движке, то добавляем ее туда из БД
+        for i in categories_list:
+            if i.name not in engine_category_list:
+                site.categories.append(i)
+
         # передаем список категорий
         page = render(
             "category_list.html",
@@ -56,7 +77,10 @@ class CreateCategory:
             category_name = site.decode_value(category_name)
 
             new_category = site.create_category(category_name)
-            site.categories.append(new_category)
+
+            # категории уникальны, ловим исключение в architectural_system_pattern_mappers стр 85 (insert)
+            new_category.mark_new()
+            UnitOfWork.get_current().commit()
 
         # можно добавлять несколько категорий по очереди, поэтому возвращаем эту же страницу
         page = render("create_category.html", data=request.get("data", None), user_name=request.get("user", None))
@@ -82,6 +106,9 @@ class CreateCourse:
                 category = site.find_category_by_id(int(self.category_id))
                 course = site.create_course(lesson_type, course_name, category)
                 site.courses.append(course)
+                # Добавляем наблюдателей на курс
+                course.observers.append(email_notifier)
+                course.observers.append(sms_notifier)
             page = render(
                 "courses_list.html",
                 courses_list=category.courses,
@@ -140,8 +167,6 @@ class CopyCourse:
                 new_course = Course.clone(old_course)
                 # new_course = old_course.clone()
                 new_course.name = new_name
-                print(777, new_course)
-                print(888, site.courses)
                 site.courses.append(new_course)
 
             page = render(
@@ -154,6 +179,80 @@ class CopyCourse:
         except KeyError:
             page = render("not_found.html", data=request.get("data", None), user_name=request.get("user", None))
             return "404 WHAT", [bytes(page, "UTF-8")]
+
+
+# Блок работы со студентами
+
+
+@AppRoute(routes=routes, url="/student_create/")
+class StudentCreate:
+    @Debug("Создание студента")
+    def __call__(self, request):
+        logger.log("Создание студента")
+        if request["method"] == "POST":
+            student_name = request["post_data"]["name"]
+            student_lastname = request["post_data"]["lastname"]
+            student_email = request["post_data"]["email"]
+            student_name = site.decode_value(student_name)
+            student_lastname = site.decode_value(student_lastname)
+            student_email = site.decode_value(student_email)
+            # передаем категорию юзера и его имя
+            # остальные поля (фамилия, почта) пока не используем
+            new_student = site.create_user("student", student_name)
+            site.students.append(new_student)
+            # помечаем запись как новую и коммитим
+            new_student.mark_new()
+            UnitOfWork.get_current().commit()
+
+        page = render("student_create.html", data=request.get("data", None), user_name=request.get("user", None))
+        return "200 OK", [bytes(page, "UTF-8")]
+
+
+@AppRoute(routes=routes, url="/student_list/")
+class StudentList:
+    def __call__(self, request):
+        student_list = MapperRegistry.get_current_mapper("student").all()
+        # проходимся по БД и выгружаем всех студентов в engine
+        site.students = []  # предварительно очищаем список
+        for student in student_list:
+            site.students.append(student)
+
+        page = render(
+            "student_list.html",
+            student_list=site.students,
+            data=request.get("data", None),
+            user_name=request.get("user", None),
+        )
+        return "200 OK", [bytes(page, "UTF-8")]
+
+
+@AppRoute(routes=routes, url="/student_add_course/")
+class StudentAddCourse(CreateView):
+    template_name = "student_add_course.html"
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["courses_list"] = site.courses
+        context["student_list"] = site.students
+        return context
+
+    def create_obj(self, data: dict):
+        try:
+            course_name = data["course_name"]
+            course_name = site.decode_value(course_name)
+            course = site.get_course(course_name)
+            student_name = data["student_name"]
+            student_name = site.decode_value(student_name)
+            student = site.get_student(student_name)
+            course.add_student(student)
+        except KeyError as er:
+            logger.log(f"KeyError: {er}")
+
+
+@AppRoute(routes=routes, url="/json_file/")
+class JsonFile:
+    def __call__(self, request):
+        return "200 OK", [bytes(BaseSerializer(site.courses).save(), "UTF-8")]
 
 
 class PageNotFound:

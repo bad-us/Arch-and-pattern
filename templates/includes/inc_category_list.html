@@ -2,10 +2,11 @@
     <h1 class="header">Наши курсы</h1>
     {% for item in categories_list %}
     <li class="course_list">
-        {{item.name}}
+        Категория {{item.name}}
         Состоит из {{item.course_count()}} курсов
         <a href="/courses_list/?id={{item.id}}" class="back_href">К списку курсов</a>
     </li>
     {% endfor %}
     <a href="/create_category/" class="back_href">Добавить новую категорию</a>
+    <div class="student_href"><a href="/json_file/" class="back_href">Получить список курсов в виде JSON-файла</a></div>
 </div>
